@@ -4,6 +4,7 @@ export default function ProductPopup({products, onClose}) {
       <div className="relative w-full max-w-sm bg-white rounded-xl shadow-2xl border border-stone-100 p-6 md:p-8 flex flex-col items-center text-center animate-in zoom-in-95 slide-in-from-bottom-4 duration-300">
         <button
           type="button"
+          onClick={onClose}
           className="absolute top-4 right-4 text-stone-400 hover:text-stone-900 transition-colors cursor-pointer p-1 rounded-md hover:bg-stone-50"
         >
           <svg
@@ -71,16 +72,9 @@ export default function ProductPopup({products, onClose}) {
           <span className="font-black text-stone-900 text-base">$299.00</span>
         </div>
 
-        <div className="w-full grid grid-cols-2 gap-3">
+        <div className="w-full">
           <button
             type="button"
-            className="w-full bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-bold uppercase tracking-wider py-3 rounded-md transition-all active:scale-[0.99] cursor-pointer"
-          >
-            Cancel
-          </button>
-          <button
-            type="button"
-            onClick={()=>onClose}
             className="w-full bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold uppercase tracking-wider py-3 rounded-md shadow-md shadow-amber-600/10 transition-all active:scale-[0.99] cursor-pointer"
           >
             Add To Cart
