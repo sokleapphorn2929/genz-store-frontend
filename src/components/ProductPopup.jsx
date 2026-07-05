@@ -1,4 +1,8 @@
-export default function ProductPopup({products, onClose}) {
+import { useState } from "react";
+
+export default function ProductPopup({ products, onClose, onAddToCart}) {
+  const [qty, setQty] = useState(1);
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-950/50 backdrop-blur-xs animate-in fade-in duration-200">
       <div className="relative w-full max-w-sm bg-white rounded-xl shadow-2xl border border-stone-100 p-6 md:p-8 flex flex-col items-center text-center animate-in zoom-in-95 slide-in-from-bottom-4 duration-300">
@@ -52,15 +56,21 @@ export default function ProductPopup({products, onClose}) {
         <div className="flex items-center border border-stone-200 rounded-lg bg-stone-50/50 my-6 shadow-xs overflow-hidden">
           <button
             type="button"
+            onClick={()=>{
+              if(qty>1)
+                setQty(qty - 1)
+            }}
+            disabled={qty <= 1}
             className="px-4 py-2.5 text-stone-600 hover:text-stone-900 hover:bg-stone-100 font-bold text-lg transition-colors select-none cursor-pointer"
           >
             -
           </button>
           <span className="px-6 py-2.5 text-base font-black text-stone-900 min-w-12.5 select-none">
-            1
+            {qty}
           </span>
           <button
             type="button"
+            onClick={()=>setQty(qty + 1)}
             className="px-4 py-2.5 text-stone-600 hover:text-stone-900 hover:bg-stone-100 font-bold text-lg transition-colors select-none cursor-pointer"
           >
             +
@@ -68,13 +78,19 @@ export default function ProductPopup({products, onClose}) {
         </div>
 
         <div className="w-full flex justify-between items-center text-sm py-3 px-4 bg-stone-50 rounded-lg border border-stone-100 mb-6">
-          <span className="text-stone-500 font-medium">Estimated Subtotal:</span>
-          <span className="font-black text-stone-900 text-base">$299.00</span>
+          <span className="text-stone-500 font-medium">
+            Estimated Subtotal:
+          </span>
+          <span className="font-black text-stone-900 text-base">${(qty*products.price).toFixed(2)}</span>
         </div>
 
         <div className="w-full">
           <button
-            type="button"
+            type="submit"
+            onClick={()=>{
+              onAddToCart(qty);
+              onClose();
+            }}
             className="w-full bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold uppercase tracking-wider py-3 rounded-md shadow-md shadow-amber-600/10 transition-all active:scale-[0.99] cursor-pointer"
           >
             Add To Cart

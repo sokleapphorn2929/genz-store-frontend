@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ProductPopup from "./ProductPopup";
 
-export default function Product() {
+export default function Product({onAddToCart}) {
   const [products, setProducts] = useState([]);
   const [selectProduct, setSelectProduct] = useState(null);
 
@@ -108,6 +108,7 @@ export default function Product() {
         <ProductPopup
           products={selectProduct}
           onClose={()=>setSelectProduct(null)}
+          onAddToCart={onAddToCart}
         />
       )}
     </section>

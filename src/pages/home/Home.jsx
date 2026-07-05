@@ -2,12 +2,12 @@ import Carousel from "../../components/Carousel";
 import Navbar from "../../components/Navbar";
 import Product from "../../components/Product";
 
-export default function Home() {
+export default function Home({onAddToCart}) {
     return(
         <div>
-            <Navbar />
+            {/* <Navbar /> */}
             <Carousel />
-            <Product />
+            <Product onAddToCart={onAddToCart}/>
         </div>
     );
 }
