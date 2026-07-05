@@ -4,35 +4,34 @@ import { Link, useNavigate } from "react-router-dom";
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   async function login(e) {
     e.preventDefault();
-    try{
-      console.log(username,password);
+    try {
+      console.log(username, password);
       let item = {
         username: username,
-        password: password
+        password: password,
       };
-      let response = await fetch("https://dummyjson.com/user/login",{
+      let response = await fetch("https://dummyjson.com/user/login", {
         method: "POST",
         headers: {
-          "Content-type" : "application/json",
-          "Accept" : "application/json"
+          "Content-type": "application/json",
+          Accept: "application/json",
         },
-        body: JSON.stringify(item)
+        body: JSON.stringify(item),
       });
       let result = await response.json();
-      if(response.ok){
-        localStorage.setItem("user-info",JSON.stringify(result))
-        navigate("/home")
+      if (response.ok) {
+        localStorage.setItem("user-info", JSON.stringify(result));
+        navigate("/home");
+      } else {
+        setError(result.message || "Invalid username or password");
       }
-      else{
-        alert(result.message || "Login failed");
-      }
-    }
-    catch(error){
-      console.error("Network error:", error);
+    } catch (error) {
+      setError("Connection error. Please check your internet and try again.");
     }
   }
 
@@ -94,7 +93,7 @@ export default function Login() {
                     required
                     className="block w-full rounded-md border-stone-200 bg-stone-50/50 py-2.5 px-3.5 text-stone-900 shadow-sm ring-1 ring-inset ring-stone-300 placeholder:text-stone-400 focus:bg-white focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm transition-all outline-none"
                     placeholder="Enter your username"
-                    onChange={(e)=>setUsername(e.target.value)}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                 </div>
               </div>
@@ -117,10 +116,28 @@ export default function Login() {
                     required
                     className="block w-full rounded-md border-stone-200 bg-stone-50/50 py-2.5 px-3.5 text-stone-900 shadow-sm ring-1 ring-inset ring-stone-300 placeholder:text-stone-400 focus:bg-white focus:ring-2 focus:ring-inset focus:ring-amber-600 sm:text-sm transition-all outline-none"
                     placeholder="••••••••"
-                    onChange={(e)=>setPassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
               </div>
+              {error && (
+                <div class="w-full flex items-center gap-2 bg-red-50 text-red-600 border border-red-100 rounded-lg p-3 text-xs font-bold text-left mb-4 animate-in fade-in zoom-in-95 duration-200">
+                  <svg
+                    class="w-4 h-4 shrink-0"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                    />
+                  </svg>
+                  <span>{error}</span>
+                </div>
+              )}
               <button
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-stone-900 px-4 py-3 text-sm font-semibold uppercase tracking-wider text-white shadow hover:bg-stone-800 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-stone-900 active:scale-[0.99] transition-all mt-10"
