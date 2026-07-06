@@ -88,7 +88,7 @@ export default function ProductPopup({ products, onClose, onAddToCart}) {
           <button
             type="submit"
             onClick={()=>{
-              onAddToCart(qty);
+              onAddToCart(products, qty);
               onClose();
             }}
             className="w-full bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold uppercase tracking-wider py-3 rounded-md shadow-md shadow-amber-600/10 transition-all active:scale-[0.99] cursor-pointer"

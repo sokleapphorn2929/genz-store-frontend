@@ -7,20 +7,51 @@ import { useState } from "react";
 import Cart from "./pages/home/Cart";
 
 function App() {
-  const [cartQty, setCartQty] = useState(0);
+  const [cartItems, setCartItems] = useState([]);
 
-  const handleAddToCart = (amount) => {
-    setCartQty((prev) => prev + amount);
+  const handleAddToCart = async (product, qty) => {
+    try {
+      const response = await fetch("https://dummyjson.com/carts/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: 1,
+          products: [
+            {
+              id: product.id,
+              quantity: qty,
+            },
+          ],
+        }),
+      });
+
+      if (response.ok) {
+        setCartItems((prevItems) => {
+          const itemExists = prevItems.find((item) => item.id === product.id);
+
+          if (itemExists) {
+            return prevItems.map((item) =>
+              item.id === product.id ? { ...item, qty: item.qty + qty } : item
+            );
+          }
+          return [...prevItems, { ...product, qty }];
+        });
+      }
+    } catch (error) {
+      console.error("Error connecting to API:", error);
+    }
   };
+
+  const totalNavbarQty = cartItems.reduce((acc, item) => acc + item.qty, 0);
 
   return (
     <BrowserRouter>
-      <Navbar qty={cartQty} />
+      <Navbar qty={totalNavbarQty} />
       <Routes>
         <Route index path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/home" element={<Home onAddToCart={handleAddToCart}/>} />
-        <Route path="/cart" element={<Cart />} />
+        <Route path="/cart" element={<Cart cartItems={cartItems} setCartItems={setCartItems} />} />
       </Routes>
     </BrowserRouter>
   );
