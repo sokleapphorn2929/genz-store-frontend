@@ -17,7 +17,8 @@ export default function Product({onAddToCart}) {
   }
 
   useEffect(() => {
-    console.log(getProduct());
+    // console.log(getProduct());
+    getProduct();
   }, []);
 
   return (
