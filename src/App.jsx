@@ -6,7 +6,7 @@ import Home from "./pages/home/Home";
 import { useState } from "react";
 import Cart from "./pages/home/Cart";
 import Account from "./pages/account/Account";
-import MainLayout from "./pages/layout/MainLayout";
+import MainLayout from "./layout/MainLayout";
 import ProtectedRoute from "./router/ProtectedRoute";
 
 function App() {
