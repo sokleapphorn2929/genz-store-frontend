@@ -7,6 +7,7 @@ import { useState } from "react";
 import Cart from "./pages/home/Cart";
 import Account from "./pages/account/Account";
 import MainLayout from "./pages/layout/MainLayout";
+import ProtectedRoute from "./router/ProtectedRoute";
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
@@ -48,14 +49,15 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* <Navbar qty={totalNavbarQty} /> */}
       <Routes>
         <Route index path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route element={<MainLayout qty={totalNavbarQty} />}>
-          <Route path="/home" element={<Home onAddToCart={handleAddToCart} />} />
-          <Route path="/cart" element={<Cart cartItems={cartItems} setCartItems={setCartItems} />} />
-          <Route path="/account" element={<Account />} />
+        <Route element={<ProtectedRoute />}>
+          <Route element={<MainLayout qty={totalNavbarQty} />}>
+            <Route path="/home" element={<Home onAddToCart={handleAddToCart} />} />
+            <Route path="/cart" element={<Cart cartItems={cartItems} setCartItems={setCartItems} />} />
+            <Route path="/account" element={<Account />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
